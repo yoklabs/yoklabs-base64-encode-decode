@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 Encoder & Decoder Online | Free Text Converter Tool</title>
+
+    <meta name="description" content="Free online Base64 Encoder and Decoder tool. Quickly encode text or decode Base64 strings with a clean, fast, and secure interface. Works in all browsers.">
+    <meta name="keywords" content="Base64 encoder, Base64 decoder, online Base64 converter, encode text, decode Base64, Base64 tool, text to Base64, Base64 to text">
+    <meta name="author" content="YokLabs">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Base64 Encoder & Decoder Online | Free Tool by YokLabs">
+    <meta property="og:description" content="Quickly encode or decode Base64 strings online. Simple, fast, and secure Base64 converter.">
+    <meta property="og:image" content="https://base64encodedecode.yoklabs.com/preview.png">
+    <meta property="og:url" content="https://base64encodedecode.yoklabs.com/">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Base64 Encoder & Decoder Online">
+    <meta name="twitter:description" content="Free Base64 converter tool — encode and decode instantly.">
+    <meta name="twitter:image" content="https://base64encodedecode.yoklabs.com/preview.png">
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Base64 Encoder/Decoder",
+      "url": "https://base64encodedecode.yoklabs.com/",
+      "applicationCategory": "UtilityApplication",
+      "description": "Free Base64 Encoder/Decoder to convert text to Base64 and back instantly.",
+      "operatingSystem": "All",
+      "creator": {
+        "@type": "Organization",
+        "name": "YokLabs",
+        "url": "https://yoklabs.com"
+      }
+    }
+    </script>
+
+    <link rel="canonical" href="https://base64encodedecode.yoklabs.com/">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <style>
+        :root {
+            --color-bg: #f5f7fa;
+            --color-surface: #ffffff;
+            --color-primary: #3b82f6;
+            --color-primary-hover: #2563eb;
+            --color-success: #10b981;
+            --color-error: #ef4444;
+            --color-text: #1f2937;
+            --color-text-secondary: #6b7280;
+            --color-border: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --color-bg: #111827;
+                --color-surface: #1f2937;
+                --color-primary: #60a5fa;
+                --color-primary-hover: #3b82f6;
+                --color-success: #34d399;
+                --color-error: #f87171;
+                --color-text: #f3f4f6;
+                --color-text-secondary: #9ca3af;
+                --color-border: #374151;
+            }
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container { flex:1; width:100%; max-width:800px; display:flex; flex-direction:column; justify-content:flex-start; }
+        .card {
+            background: var(--color-surface);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 24px;
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-success));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle { color: var(--color-text-secondary); font-size: 13px; margin-bottom: 20px; }
+
+        .input-group { margin-bottom: 16px; }
+        label { display:block; font-size:14px; font-weight:500; margin-bottom:8px; color: var(--color-text); }
+
+        textarea {
+            width:100%; min-height:120px; max-height:120px;
+            padding:12px; border:2px solid var(--color-border); border-radius:8px;
+            font-size:14px; font-family: 'Courier New', monospace;
+            background: var(--color-bg); color: var(--color-text);
+            transition: border-color 0.2s ease; resize:none;
+        }
+        textarea:focus { outline:none; border-color: var(--color-primary); }
+        textarea.error { border-color: var(--color-error); }
+
+        .button-group { display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap; }
+        button {
+            flex:1; min-width:120px; padding:10px 20px;
+            border:none; border-radius:8px; font-size:14px; font-weight:500;
+            cursor:pointer; transition: all 0.2s ease;
+            display:flex; align-items:center; justify-content:center; gap:8px;
+        }
+
+        .btn-encode { background: var(--color-primary); color:white; }
+        .btn-encode:hover { background: var(--color-primary-hover); transform: translateY(-2px); }
+        .btn-decode { background: var(--color-success); color:white; }
+        .btn-decode:hover { background:#059669; transform: translateY(-2px); }
+        .btn-clear { background: var(--color-border); color: var(--color-text); }
+        .btn-clear:hover { background: var(--color-text-secondary); color:white; }
+        .btn-copy { background:transparent; border:2px solid var(--color-primary); color: var(--color-primary); }
+        .btn-copy:hover { background: var(--color-primary); color:white; }
+
+        button:active { transform: translateY(0); }
+        button:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+
+        .message { padding:12px 16px; border-radius:8px; font-size:14px; margin-bottom:16px; display:none; animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { opacity:0; transform:translateY(-10px);} to { opacity:1; transform:translateY(0); } }
+        .message.show { display:block; }
+        .message.success { background: rgba(16, 185, 129, 0.1); color: var(--color-success); border:1px solid var(--color-success); }
+        .message.error { background: rgba(239,68,68,0.1); color: var(--color-error); border:1px solid var(--color-error); }
+
+        .char-count { font-size:12px; color: var(--color-text-secondary); text-align:right; margin-top:4px; }
+
+        @media (max-width:640px) { .card{padding:24px;} h1{font-size:24px;} .button-group{flex-direction:column;} button{width:100%;} }
+
+        footer {
+            background: var(--color-surface);
+            color: var(--color-text-secondary);
+            padding: 40px 20px 20px;
+            width: 100%;
+            margin-top: 40px;
+            border-top: 1px solid var(--color-border);
+            text-align: center;
+        }
+        footer p { font-size: 14px; margin-bottom: 8px; }
+        footer a { color: var(--color-primary); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Base64 Encoder/Decoder</h1>
+            <p class="subtitle">Convert text to Base64 and back with validation</p>
+
+            <div id="message" class="message"></div>
+
+            <div class="input-group">
+                <label for="input">Input</label>
+                <textarea id="input" placeholder="Enter text to encode or Base64 string to decode..." spellcheck="false"></textarea>
+                <div class="char-count" id="inputCount">0 characters</div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-encode" onclick="encodeText()">Encode</button>
+                <button class="btn-decode" onclick="decodeText()">Decode</button>
+                <button class="btn-clear" onclick="clearAll()">Clear</button>
+            </div>
+
+            <div class="input-group">
+                <label for="output">Output</label>
+                <textarea id="output" placeholder="Result will appear here..." readonly spellcheck="false"></textarea>
+                <div class="char-count" id="outputCount">0 characters</div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-copy" onclick="copyOutput()">Copy Result</button>
+            </div>
+        </div>
+
+        <section style="margin-top: 24px;">
+            <p style="font-size:14px; color:var(--color-text-secondary); margin-top:8px;">
+                Base64 is a binary-to-text encoding scheme used to represent binary data in ASCII format.
+                It’s commonly used for transmitting data in email, web APIs, and data URLs.
+                Use this free Base64 encoder and decoder to quickly convert between plain text and Base64 strings securely.
+            </p>
+        </section>
+    </div>
+
+    <footer>
+        <p><strong>About YokLabs:</strong> YokLabs provides free online developer tools designed for simplicity, speed, and privacy.</p>
+        <p>Base64 Encoder/Decoder helps you convert text to Base64 and decode it back quickly and securely.</p>
+        <p>Connect with us on <a href="https://linkedin.com/company/yoklabs" target="_blank">LinkedIn</a></p>
+        <p>© 2025 YokLabs. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const inputEl = document.getElementById('input');
+        const outputEl = document.getElementById('output');
+        const messageEl = document.getElementById('message');
+        const inputCountEl = document.getElementById('inputCount');
+        const outputCountEl = document.getElementById('outputCount');
+
+        inputEl.addEventListener('input', () => {
+            updateCharCount(inputEl, inputCountEl);
+            outputEl.classList.remove('error');
+            hideMessage();
+        });
+
+        function updateCharCount(textarea, countEl) {
+            const count = textarea.value.length;
+            countEl.textContent = `${count} character${count !== 1 ? 's' : ''}`;
+        }
+
+        function showMessage(text, type) {
+            messageEl.textContent = text;
+            messageEl.className = `message ${type} show`;
+            setTimeout(() => hideMessage(), 3000);
+        }
+
+        function hideMessage() {
+            messageEl.classList.remove('show');
+        }
+
+        function encodeText() {
+            const input = inputEl.value.trim();
+            if (!input) {
+                showMessage('⚠️ Please enter some text to encode', 'error');
+                inputEl.classList.add('error');
+                return;
+            }
+            try {
+                const encoded = btoa(unescape(encodeURIComponent(input)));
+                outputEl.value = encoded;
+                outputEl.classList.remove('error');
+                updateCharCount(outputEl, outputCountEl);
+                showMessage('✅ Text successfully encoded to Base64', 'success');
+            } catch (e) {
+                showMessage('❌ Error encoding text. Please check your input.', 'error');
+                outputEl.classList.add('error');
+            }
+        }
+
+        function decodeText() {
+            const input = inputEl.value.trim();
+            if (!input) {
+                showMessage('⚠️ Please enter Base64 text to decode', 'error');
+                inputEl.classList.add('error');
+                return;
+            }
+            const base64Regex = /^[A-Za-z0-9+/]*={0,2}$/;
+            if (!base64Regex.test(input)) {
+                showMessage('❌ Invalid Base64 format. Please check your input.', 'error');
+                inputEl.classList.add('error');
+                outputEl.value = '';
+                return;
+            }
+            try {
+                const decoded = decodeURIComponent(escape(atob(input)));
+                outputEl.value = decoded;
+                outputEl.classList.remove('error');
+                updateCharCount(outputEl, outputCountEl);
+                showMessage('✅ Base64 successfully decoded', 'success');
+            } catch (e) {
+                showMessage('❌ Error decoding Base64. Invalid input format.', 'error');
+                outputEl.classList.add('error');
+                outputEl.value = '';
+            }
+        }
+
+        function clearAll() {
+            inputEl.value = '';
+            outputEl.value = '';
+            inputEl.classList.remove('error');
+            outputEl.classList.remove('error');
+            updateCharCount(inputEl, inputCountEl);
+            updateCharCount(outputEl, outputCountEl);
+            hideMessage();
+        }
+
+        async function copyOutput() {
+            const output = outputEl.value;
+            if (!output) {
+                showMessage('⚠️ Nothing to copy. Generate a result first.', 'error');
+                return;
+            }
+            try {
+                await navigator.clipboard.writeText(output);
+                showMessage('✅ Result copied to clipboard!', 'success');
+            } catch (e) {
+                outputEl.select();
+                document.execCommand('copy');
+                showMessage('✅ Result copied to clipboard!', 'success');
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                if (e.key === 'e') {
+                    e.preventDefault();
+                    encodeText();
+                } else if (e.key === 'd') {
+                    e.preventDefault();
+                    decodeText();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
